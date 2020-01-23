@@ -1,15 +1,16 @@
+from django.conf import settings
 from django.db import models
-from django.contrib.auth.models import User
+from django.db.models.signals import post_save
 
-# Create your models here.
+User = settings.AUTH_USER_MODEL
 
-# Extending existing user model to add wallet balance and profile picture
-class extend_user(models.Model):
-    # import user model inside this model
+class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    # create image field for storing profile photos
-    profile_photo = models.ImageField(default='default.png', upload_to='profile_photos')
-    # create field to store wallet balance
-    wallet_balance = models.FloatField(default=0.0)
+    balance = models.FloatField(default=0.0)
+    profile_photo = models.ImageField(default="default.png", upload_to='profile_photos')
 
+def user_did_save(sender, instance, created, *args, **kwargs):
+    if created:
+        Profile.objects.get_or_create(user=instance)
 
+post_save.connect(user_did_save, sender=User)
