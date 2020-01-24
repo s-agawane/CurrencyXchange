@@ -18,8 +18,8 @@ def show_balance_view(request, *args, **kwargs):
 @permission_classes([IsAuthenticated])
 def deposit_balance_view(request, *args, **kwargs):
     try:
-        amount_to_deposit = request.data.get("amount")
-        if amount_to_deposit < 0 :
+        amount_to_deposit = float(request.data.get("amount"))
+        if amount_to_deposit < 0.0 :
             return Response({"Amount invalid!"}, status=400)
         qs = User.objects.filter(username=request.user)[0].profile
         # print(request.data, qs.balance)
@@ -27,7 +27,8 @@ def deposit_balance_view(request, *args, **kwargs):
         qs.balance = qs.balance + amount_to_deposit
         qs.save()
         return Response({"Deposit successful."}, status=200)
-    except:
+    except Exception as e:
+        print(e)
         return Response({"Something went wrong. Please try again later."}, status=404)
 
 @api_view(['POST'])
@@ -36,13 +37,14 @@ def withdraw_balance_view(request, *args, **kwargs):
     try:
         qs = User.objects.filter(username=request.user)[0].profile
         # print(request.data, qs.balance)
-        amount_to_withdraw = request.data.get("amount")
-        if amount_to_withdraw < 0 :
+        amount_to_withdraw = float(request.data.get("amount"))
+        if amount_to_withdraw < 0.0 :
             return Response({"Amount invalid!"}, status=400)
         if amount_to_withdraw > qs.balance:
             return Response({"Insufficient Balance. Please add funds!!"}, status=400)
         qs.balance = qs.balance - amount_to_withdraw
         qs.save()
         return Response({"Withdraw successful."}, status=200)
-    except:
+    except Exception as e:
+        print(e)
         return Response({"Something went wrong. Please try again later."}, status=404)
