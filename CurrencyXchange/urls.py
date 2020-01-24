@@ -22,5 +22,6 @@ urlpatterns = [
     path('rest-auth/', include('rest_auth.urls')),
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
     path('wallet/', include('api_app.urls')),
-    path('currex/', include('api_app.forex_api.urls'))
+    path('currex/', include('api_app.forex_api.urls')),
+    path('update-dp/', include('api_app.dp_update_api.urls'))
 ]
