@@ -16,11 +16,12 @@ def get_forex_rate_view(request, *args, **kwargs):
         if result == 'apidown' or result == '404':
             return Response({result}, status=404)
         return Response({"converted_amount": result * float(data["amount"]), "exchange_rate": result}, status=200)
-    except:
+    except Exception as e:
+        print(e)
         return Response({"Something went wrong. Please try again later."}, status=404)
 
 #     {
-# "base_cu": "INR",
+# "base_cur": "INR",
 # "dest_cur": "INR",
 # "amount":2000
 # }
