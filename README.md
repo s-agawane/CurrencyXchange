@@ -5,7 +5,7 @@ API is secured using token Authentication.
 ## Features
 
 #### User Authentication API - https://django-rest-auth.readthedocs.io/en/latest/api_endpoints.html
-* User SignUp - New use has a default profile picture set and wallet balance 0.
+* User SignUp - New user has a default profile picture set and wallet balance 0.
 * User Login
 * User Logout & more.
 #### User update profile picture API
